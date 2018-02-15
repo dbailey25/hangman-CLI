@@ -24,7 +24,6 @@ var Letter = function(userGuess, secretLetter) {
       // console.log('_');
       return '_'
     }
-
   } // close function, toString
 
 } // close function, Letter

@@ -1,33 +1,69 @@
-// var word = require('./word.js');
+var Word = require('./word.js');
 var inquirer = require("inquirer");
 
 var wordBank = ['blue', 'green', 'yellow', 'pink', 'beige']
+var selectedWord;
+var wordArray = [];
+var remainingGuesses;
 
 // randomly select a word from the wordbank
-var randNum = Math.floor(Math.random() * 4);
-var selectedWord = wordBank[randNum];
+function selectWord() {
+  var randNum = Math.floor(Math.random() * 4);
+  selectedWord = wordBank[randNum];
 
-// split the word into an array of characters
-var wordArray = selectedWord.split('');
+  // split the word into an array of characters
+  wordArray = selectedWord.split('');
 
-// Determine the remaining guesses
-var remainingGuesses = wordArray.length + 6;
-console.log(remainingGuesses);
+  // Determine the remaining guesses
+  remainingGuesses = wordArray.length + 6;
+}
+
+selectWord()
+                  console.log('selectedWord', selectedWord);
+
+// game header
+console.log('~~~~~~~~~~ Hangman: CLI Version ~~~~~~~~~~');
+console.log('Can you guess the word?');
+
+function displayGuessesLeft() {
+  console.log('You have ' + remainingGuesses + ' guesses left.');
+};
+displayGuessesLeft()
 
 // use the Word constructor to create the secret word to display in the console
-
+var displayWord = new Word('', wordArray);
 
 // display the secret word
+displayWord.assembleWord();
 
 
-// prompt user to guess a letter
-inquirer.prompt([
-  {
-    name: "guess",
-    message: "Type a letter to guess the word"
+function gamePlay() {
+  if (remainingGuesses > 0 && !Word.wordGuessed) {
+    // prompt user to guess a letter
+    inquirer.prompt([
+      {
+        name: "guess",
+        message: "Type a letter to guess the word"
+      }
+    ]).then(function(answer) {
+      // decrement the remainingGuesses count
+      remainingGuesses--;
+      displayGuessesLeft()
+      // use the Word constructor to create the secret word to display in the console
+      var displayWord = new Word(answer.guess, wordArray);
+
+      // display the secret word
+      displayWord.assembleWord();
+      displayWord.isWordGuessed();
+      gamePlay()
+    });
+
   }
-]).then(function(answer) {
-  // compare user's guess with the secret word
-  var newGuy = new Programmer(answer.guess);
-  // display message regarding status of user's guess, re-display secret word and remaining guesses
-});
+  else {
+    console.log('Sorry, try again!');
+  }
+
+
+} // close function, gamePlay
+
+gamePlay();
