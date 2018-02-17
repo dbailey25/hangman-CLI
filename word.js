@@ -10,7 +10,9 @@ var lettersGuessed = 0;
                 console.log('lettersGuessed', lettersGuessed);
 var wordGuessed = false;
 var secretWordArray = [];
-  this.assembleWord = function() {
+var wordToDisplay = [];
+  this.assembleWordObjects = function() {
+    // check if the user guess matches a letter in the selected word
     for (var i = 0; i < this.wordArray.length; i++) {
       var wordLetter = this.wordArray[i];
       var checkLetter = new Letter(guessLetter, wordLetter);
@@ -19,9 +21,22 @@ var secretWordArray = [];
         lettersGuessed++;
       };
       secretWordArray.push(checkLetter)
-    }
-    var secretWord = secretWordArray.join();
-    console.log(secretWord);
+
+    } // close loop
+    wordToDisplay = secretWordArray.join();
+    console.log(wordToDisplay);
+                    // console.log(secretWordArray);
+    // var secretWord = secretWordArray.join();\
+    // update the array to be displayed with new letters guessed correctly
+    for (var i = 0; i < secretWordArray.length; i++) {
+      if (secretWordArray[i].guessed) {
+        wordToDisplay.splice(i, 1, secretWordArray[i].userGuess)
+      } // close if
+      // else {
+      //   wordToDisplay.splice(i, 1, '_')
+      // } // close else
+    } // close loop
+                       // console.log(wordToDisplay);
   } // close function, assembleWord
   this.isWordGuessed = function() {
     if (lettersGuessed = this.wordArray.length) {
@@ -29,7 +44,7 @@ var secretWordArray = [];
     }
   } // close function, isWordGuessed
 
-}
+} // close Constructor, Word
 
 
 

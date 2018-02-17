@@ -34,7 +34,7 @@ displayGuessesLeft()
 var displayWord = new Word('', wordArray);
 
 // display the secret word
-displayWord.assembleWord();
+displayWord.assembleWordObjects();
 
 
 function gamePlay() {
@@ -53,7 +53,7 @@ function gamePlay() {
       var displayWord = new Word(answer.guess, wordArray);
 
       // display the secret word
-      displayWord.assembleWord();
+      displayWord.assembleWordObjects();
       displayWord.isWordGuessed();
       gamePlay()
     });
